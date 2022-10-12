@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text;
@@ -22,7 +23,7 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             inf.Checked = true;
-            radioButton3.Checked = true;
+            firsttime.Checked = true;
         }
 
         private void confirm_Click(object sender, EventArgs e)
@@ -36,16 +37,30 @@ namespace WindowsFormsApp1
             var regPostCode = new Regex("^[0-9]{2}-[0-9]{3}$");
             var regTel = new Regex("^[0-9]{3}-[0-9]{3}-[0-9]{3}");
 
+            string wynik = "Deklaruję przystąpienie do egzaminu potwierdzającego kwalifikacje " +
+                "w zawodzie przeprowadzanego w terminie " + comboBox1.Text + "\n\n"
+                + "Dane osobowe ucznia\n" +
+                " Nazwisko: " + nazwiskotb.Text + "\n" +
+                " Imie (imiona): " + imietb.Text + "\n" +
+                " Data i miejsce urodzenia: " + datatb.Text + ", " + miejsce.Text + "\n" +
+                " Numer PESEL: " + pesel.Text + "\n\n" +
+                "Adres korespondencyjny\n" +
+                " miejscowość: " + miejscowosc.Text + "\n" +
+                " ulica i numer domu: " + adres.Text + "\n" +
+                " Kod pocztowy i poczta: " + postcode.Text + ", " + miasto.Text + "\n" +
+                " nr telefonu z kierunkowym: " + "+48 " + nrtel.Text + "\n" +
+                " mail: " + mail.Text + "\n\n\n";
+
             if (nazwiskotb.Text == "")
             {
                 puste.Add("nazwisko");
                 nazwiskotb.BackColor = Color.Red;
             }
-            if (imietb.Text == "") 
+            if (imietb.Text == "")
             {
                 puste.Add("imie");
                 imietb.BackColor = Color.Red;
-            } 
+            }
             if (datatb.Text == "" || !regData.IsMatch(datatb.Text))
             {
                 puste.Add("data urodzenia");
@@ -54,7 +69,7 @@ namespace WindowsFormsApp1
             if (miejsce.Text == "")
             {
                 puste.Add("miejsce urodzenia");
-                miejsce.BackColor = Color.Red; 
+                miejsce.BackColor = Color.Red;
             }
             if (pesel.Text == "")
             {
@@ -91,34 +106,60 @@ namespace WindowsFormsApp1
                 puste.Add("e-mail");
                 mail.BackColor = Color.Red;
             }
-            if (miesiac2.Text == "" || miesiac2.Text != inf1 || miesiac2.Text != inf2 || miesiac2.Text != prog1 || miesiac2.Text != prog2)
+            if (miesiac2.Text == "")
             {
                 miesiac2.BackColor = Color.Red;
+            }
+            if (next.Checked && pisemna.Checked)
+            {
+                wynik += "Deklaruję przystąpienie do egzaminu poraz kolejny do części pisemnej\n\n";
+            }
+            else if (next.Checked && praktyczna.Checked)
+            {
+                wynik += "Deklaruję przystąpienie do egzaminu poraz kolejny do części praktycznej\n\n";
+            }
+            else if (firsttime.Checked)
+            {
+                wynik += "Deklaruję przystąpienie do egzaminu poraz pierwszy\n\n";
+            }
+
+            wynik += "Oznaczenie kwalifikacji zgodne z podstawą programową: " + miesiac2.Text +
+                ". Nazwa kwalifikacji: " + label13.Text + "\n\n";
+
+            if(inf.Checked)
+            {
+                wynik += "Symbol cyfrowy zawodu: 351203\nNazwa zawodu: technik informatyk"; 
+            }
+            else
+            {
+                wynik += "Symbol cyfrowy zawodu: 351406\nNazwa zawodu: technik programista";
             }
 
             if (puste.Count != 0)
             {
-                foreach(var x in puste)
+                foreach (var x in puste)
                 {
                     if (first == true)
                     {
                         first = false;
                         wyswietl += x;
-                    } 
+                    }
                     else wyswietl += ", " + x;
                 }
                 MessageBox.Show("Podane pola " + wyswietl + " są puste lub źle uzupełnione!");
             }
-
-            /*if (!regMail.IsMatch(mail.Text))
+            else if (imietb.Text.EndsWith("A") && pesel.Text[9] % 2 != 0)
             {
-                MessageBox.Show("Idiota se nie radzi z mailem");
+                MessageBox.Show("Pesel się nie zgadza!");
             }
-            else if (!regAdres.IsMatch(adres.Text))
+            else if (next.Checked && !pisemna.Checked && !praktyczna.Checked)
             {
-                MessageBox.Show("Idiota se nie radzi z adresem");
-            }*/
-
+                MessageBox.Show("Zaznacz wszystkie pola!");
+            }
+            else
+            {
+                wyniktb.Text = wynik;
+            }
         }
 
         private void inf_CheckedChanged_1(object sender, EventArgs e)
@@ -165,25 +206,25 @@ namespace WindowsFormsApp1
         {
             if (miesiac2.Text == inf1)
             {
-                label13.Text = inf1;
+                label13.Text = "Administracja i eksploatacja systemów komputerowych, urządzeń peryferyjnych i lokalnych sieci komputerowych.";
             }
             else if (miesiac2.Text == inf2)
             {
-                label13.Text = inf2;
+                label13.Text = "Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych.";
             }
             else if (miesiac2.Text == prog1)
             {
-                label13.Text = prog1;
+                label13.Text = "Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych.";
             }
             else if (miesiac2.Text == prog2)
             {
-                label13.Text = prog2;
+                label13.Text = "Projektowanie, programowanie i testowanie aplikacji";
             }
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            if(radioButton3.Checked)
+            if(firsttime.Checked)
             {
                 pisemna.Enabled = false;
                 praktyczna.Enabled = false;
@@ -207,6 +248,7 @@ namespace WindowsFormsApp1
             miasto.Text = "";
             nrtel.Text = "";
             mail.Text = "";
+            wyniktb.Text = "";
         }
 
         private void miesiac2_Click(object sender, EventArgs e)
@@ -267,6 +309,30 @@ namespace WindowsFormsApp1
         private void miejsce_Click(object sender, EventArgs e)
         {
             miejsce.BackColor = Color.White;
+        }
+
+        private void pisemna_Click(object sender, EventArgs e)
+        {
+            pisemna.BackColor = Color.White;
+        }
+
+        private void praktyczna_Click(object sender, EventArgs e)
+        {
+            praktyczna.BackColor = Color.White;
+        }
+
+        private void save_Click(object sender, EventArgs e)
+        {
+            var path = "C:\\Users\\tomek\\Desktop";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                sw.Write(wyniktb.Text);
+            }
         }
     }
 }

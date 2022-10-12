@@ -60,11 +60,11 @@
             this.prog = new System.Windows.Forms.RadioButton();
             this.miesiac2 = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.wynik = new System.Windows.Forms.RichTextBox();
+            this.wyniktb = new System.Windows.Forms.RichTextBox();
             this.clear = new System.Windows.Forms.Button();
             this.save = new System.Windows.Forms.Button();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.firsttime = new System.Windows.Forms.RadioButton();
+            this.next = new System.Windows.Forms.RadioButton();
             this.pisemna = new System.Windows.Forms.CheckBox();
             this.praktyczna = new System.Windows.Forms.CheckBox();
             this.confirm = new System.Windows.Forms.Button();
@@ -231,7 +231,7 @@
             // 
             this.nrtel.Location = new System.Drawing.Point(317, 154);
             this.nrtel.Margin = new System.Windows.Forms.Padding(4);
-            this.nrtel.Mask = "000-000-000";
+            this.nrtel.Mask = "000-000-099";
             this.nrtel.Name = "nrtel";
             this.nrtel.Size = new System.Drawing.Size(165, 27);
             this.nrtel.TabIndex = 22;
@@ -449,15 +449,15 @@
             this.label13.TabIndex = 9;
             this.label13.Text = "Projektowanie, programowanie aplikacji";
             // 
-            // wynik
+            // wyniktb
             // 
-            this.wynik.Enabled = false;
-            this.wynik.Location = new System.Drawing.Point(961, 50);
-            this.wynik.Margin = new System.Windows.Forms.Padding(4);
-            this.wynik.Name = "wynik";
-            this.wynik.Size = new System.Drawing.Size(427, 576);
-            this.wynik.TabIndex = 10;
-            this.wynik.Text = "";
+            this.wyniktb.Enabled = false;
+            this.wyniktb.Location = new System.Drawing.Point(961, 50);
+            this.wyniktb.Margin = new System.Windows.Forms.Padding(4);
+            this.wyniktb.Name = "wyniktb";
+            this.wyniktb.Size = new System.Drawing.Size(427, 576);
+            this.wyniktb.TabIndex = 10;
+            this.wyniktb.Text = "";
             // 
             // clear
             // 
@@ -479,31 +479,32 @@
             this.save.TabIndex = 12;
             this.save.Text = "Zapisz";
             this.save.UseVisualStyleBackColor = true;
+            this.save.Click += new System.EventHandler(this.save_Click);
             // 
-            // radioButton3
+            // firsttime
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(57, 12);
-            this.radioButton3.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(120, 20);
-            this.radioButton3.TabIndex = 13;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "po raz pierwszy";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
+            this.firsttime.AutoSize = true;
+            this.firsttime.Location = new System.Drawing.Point(57, 12);
+            this.firsttime.Margin = new System.Windows.Forms.Padding(4);
+            this.firsttime.Name = "firsttime";
+            this.firsttime.Size = new System.Drawing.Size(120, 20);
+            this.firsttime.TabIndex = 13;
+            this.firsttime.TabStop = true;
+            this.firsttime.Text = "po raz pierwszy";
+            this.firsttime.UseVisualStyleBackColor = true;
+            this.firsttime.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
-            // radioButton4
+            // next
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(195, 12);
-            this.radioButton4.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(111, 20);
-            this.radioButton4.TabIndex = 14;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "po raz kolejny";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.next.AutoSize = true;
+            this.next.Location = new System.Drawing.Point(195, 12);
+            this.next.Margin = new System.Windows.Forms.Padding(4);
+            this.next.Name = "next";
+            this.next.Size = new System.Drawing.Size(111, 20);
+            this.next.TabIndex = 14;
+            this.next.TabStop = true;
+            this.next.Text = "po raz kolejny";
+            this.next.UseVisualStyleBackColor = true;
             // 
             // pisemna
             // 
@@ -515,6 +516,7 @@
             this.pisemna.TabIndex = 15;
             this.pisemna.Text = "pisemnej";
             this.pisemna.UseVisualStyleBackColor = true;
+            this.pisemna.Click += new System.EventHandler(this.pisemna_Click);
             // 
             // praktyczna
             // 
@@ -526,6 +528,7 @@
             this.praktyczna.TabIndex = 16;
             this.praktyczna.Text = "praktycznej";
             this.praktyczna.UseVisualStyleBackColor = true;
+            this.praktyczna.Click += new System.EventHandler(this.praktyczna_Click);
             // 
             // confirm
             // 
@@ -540,8 +543,8 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.radioButton3);
-            this.groupBox4.Controls.Add(this.radioButton4);
+            this.groupBox4.Controls.Add(this.firsttime);
+            this.groupBox4.Controls.Add(this.next);
             this.groupBox4.Location = new System.Drawing.Point(208, 647);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
@@ -572,7 +575,7 @@
             this.Controls.Add(this.confirm);
             this.Controls.Add(this.save);
             this.Controls.Add(this.clear);
-            this.Controls.Add(this.wynik);
+            this.Controls.Add(this.wyniktb);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.miesiac2);
             this.Controls.Add(this.groupBox3);
@@ -633,11 +636,11 @@
         private System.Windows.Forms.RadioButton prog;
         private System.Windows.Forms.ComboBox miesiac2;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.RichTextBox wynik;
+        private System.Windows.Forms.RichTextBox wyniktb;
         private System.Windows.Forms.Button clear;
         private System.Windows.Forms.Button save;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton4;
+        private System.Windows.Forms.RadioButton firsttime;
+        private System.Windows.Forms.RadioButton next;
         private System.Windows.Forms.CheckBox pisemna;
         private System.Windows.Forms.CheckBox praktyczna;
         private System.Windows.Forms.Button confirm;
