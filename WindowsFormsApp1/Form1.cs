@@ -31,6 +31,7 @@ namespace WindowsFormsApp1
             List<string> puste = new List<string>();
             bool first = true;
             string wyswietl = "";
+            var regNazwy = new Regex(@"[A-Z]");
             var regPesel = new Regex("[0-9]");
             var regAdres = new Regex(@"[A-Z] [0-9]\/[0-9]");
             var regData = new Regex("^[0-9]{2}.[0-9]{2}.[0-9]{4}$");
@@ -51,12 +52,12 @@ namespace WindowsFormsApp1
                 " nr telefonu z kierunkowym: " + "+48 " + nrtel.Text + "\n" +
                 " mail: " + mail.Text + "\n\n\n";
 
-            if (nazwiskotb.Text == "")
+            if (nazwiskotb.Text == "" || !regNazwy.IsMatch(nazwiskotb.Text))
             {
                 puste.Add("nazwisko");
                 nazwiskotb.BackColor = Color.Red;
             }
-            if (imietb.Text == "")
+            if (imietb.Text == "" || !regNazwy.IsMatch(imietb.Text))
             {
                 puste.Add("imie");
                 imietb.BackColor = Color.Red;
@@ -66,7 +67,7 @@ namespace WindowsFormsApp1
                 puste.Add("data urodzenia");
                 datatb.BackColor = Color.Red;
             }
-            if (miejsce.Text == "")
+            if (miejsce.Text == "" || !regNazwy.IsMatch(miejsce.Text))
             {
                 puste.Add("miejsce urodzenia");
                 miejsce.BackColor = Color.Red;
@@ -76,7 +77,7 @@ namespace WindowsFormsApp1
                 puste.Add("pesel");
                 pesel.BackColor = Color.Red;
             }
-            if (miejscowosc.Text == "")
+            if (miejscowosc.Text == "" || !regNazwy.IsMatch(miejscowosc.Text))
             {
                 puste.Add("miejscowość");
                 miejscowosc.BackColor = Color.Red;
@@ -91,7 +92,7 @@ namespace WindowsFormsApp1
                 puste.Add("kod pocztowy");
                 postcode.BackColor = Color.Red;
             }
-            if (miasto.Text == "")
+            if (miasto.Text == "" || !regNazwy.IsMatch(miasto.Text))
             {
                 puste.Add("miasto poczty");
                 miasto.BackColor = Color.Red;
@@ -323,7 +324,7 @@ namespace WindowsFormsApp1
 
         private void save_Click(object sender, EventArgs e)
         {
-            string path = "C:\\Users\\Igor\\Desktop\\text.txt"; //ZMIEŃ ŚCIEŻKĘ NA INNYM KOMPUTERZE
+            string path = "C:\\Users\\Administrator\\desktop\\text.txt"; //ZMIEŃ ŚCIEŻKĘ NA INNYM KOMPUTERZE
             if (File.Exists(path))
             {
                 File.Delete(path);
