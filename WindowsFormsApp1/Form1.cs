@@ -31,14 +31,14 @@ namespace WindowsFormsApp1
             List<string> puste = new List<string>();
             bool first = true;
             string wyswietl = "";
-            var regMail = new Regex(@"([\@]+)");
-            var regAdres = new Regex(@"[A-Z][0-9]+\/[0-9]");
+            var regPesel = new Regex("[0-9]");
+            var regAdres = new Regex(@"[A-Z] [0-9]\/[0-9]");
             var regData = new Regex("^[0-9]{2}.[0-9]{2}.[0-9]{4}$");
             var regPostCode = new Regex("^[0-9]{2}-[0-9]{3}$");
             var regTel = new Regex("^[0-9]{3}-[0-9]{3}-[0-9]{3}");
 
             string wynik = "Deklaruję przystąpienie do egzaminu potwierdzającego kwalifikacje " +
-                "w zawodzie przeprowadzanego w terminie " + comboBox1.Text + "\n\n"
+                "w zawodzie przeprowadzanego w terminie " + miesiac1.Text + "\n\n"
                 + "Dane osobowe ucznia\n" +
                 " Nazwisko: " + nazwiskotb.Text + "\n" +
                 " Imie (imiona): " + imietb.Text + "\n" +
@@ -71,7 +71,7 @@ namespace WindowsFormsApp1
                 puste.Add("miejsce urodzenia");
                 miejsce.BackColor = Color.Red;
             }
-            if (pesel.Text == "")
+            if (pesel.Text == "" || pesel.TextLength != 11 || !regPesel.IsMatch(pesel.Text))
             {
                 puste.Add("pesel");
                 pesel.BackColor = Color.Red;
@@ -101,14 +101,14 @@ namespace WindowsFormsApp1
                 puste.Add("numer telefonu");
                 nrtel.BackColor = Color.Red;
             }
-            if (mail.Text == "" || !regMail.IsMatch(mail.Text))
+            if (mail.Text == "")
             {
                 puste.Add("e-mail");
                 mail.BackColor = Color.Red;
             }
-            if (miesiac2.Text == "")
+            if (kwalifikacja.Text == "")
             {
-                miesiac2.BackColor = Color.Red;
+                kwalifikacja.BackColor = Color.Red;
             }
             if (next.Checked && pisemna.Checked)
             {
@@ -123,7 +123,7 @@ namespace WindowsFormsApp1
                 wynik += "Deklaruję przystąpienie do egzaminu poraz pierwszy\n\n";
             }
 
-            wynik += "Oznaczenie kwalifikacji zgodne z podstawą programową: " + miesiac2.Text +
+            wynik += "Oznaczenie kwalifikacji zgodne z podstawą programową: " + kwalifikacja.Text +
                 ". Nazwa kwalifikacji: " + label13.Text + "\n\n";
 
             if(inf.Checked)
@@ -166,19 +166,19 @@ namespace WindowsFormsApp1
         {
             if (inf.Checked)
             {
-                miesiac2.Enabled = true;
-                miesiac2.Items.Clear();
-                miesiac2.Text = null;
-                miesiac2.Items.Add(inf1);
-                miesiac2.Items.Add(inf2);
+                kwalifikacja.Enabled = true;
+                kwalifikacja.Items.Clear();
+                kwalifikacja.Text = null;
+                kwalifikacja.Items.Add(inf1);
+                kwalifikacja.Items.Add(inf2);
             }
             if (prog.Checked)
             {
-                miesiac2.Enabled = true;
-                miesiac2.Items.Clear();
-                miesiac2.Text = null;
-                miesiac2.Items.Add(prog1);
-                miesiac2.Items.Add(prog2);
+                kwalifikacja.Enabled = true;
+                kwalifikacja.Items.Clear();
+                kwalifikacja.Text = null;
+                kwalifikacja.Items.Add(prog1);
+                kwalifikacja.Items.Add(prog2);
             }
         }
 
@@ -186,37 +186,37 @@ namespace WindowsFormsApp1
         {
             if (inf.Checked)
             {
-                miesiac2.Enabled = true;
-                miesiac2.Items.Clear();
-                miesiac2.Text = null;
-                miesiac2.Items.Add(inf1);
-                miesiac2.Items.Add(inf2);
+                kwalifikacja.Enabled = true;
+                kwalifikacja.Items.Clear();
+                kwalifikacja.Text = null;
+                kwalifikacja.Items.Add(inf1);
+                kwalifikacja.Items.Add(inf2);
             }
             if (prog.Checked)
             {
-                miesiac2.Enabled = true;
-                miesiac2.Items.Clear();
-                miesiac2.Text = null;
-                miesiac2.Items.Add(prog1);
-                miesiac2.Items.Add(prog2);
+                kwalifikacja.Enabled = true;
+                kwalifikacja.Items.Clear();
+                kwalifikacja.Text = null;
+                kwalifikacja.Items.Add(prog1);
+                kwalifikacja.Items.Add(prog2);
             }
         }
 
         private void miesiac2_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            if (miesiac2.Text == inf1)
+            if (kwalifikacja.Text == inf1)
             {
                 label13.Text = "Administracja i eksploatacja systemów komputerowych, urządzeń peryferyjnych i lokalnych sieci komputerowych.";
             }
-            else if (miesiac2.Text == inf2)
+            else if (kwalifikacja.Text == inf2)
             {
                 label13.Text = "Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych.";
             }
-            else if (miesiac2.Text == prog1)
+            else if (kwalifikacja.Text == prog1)
             {
                 label13.Text = "Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych.";
             }
-            else if (miesiac2.Text == prog2)
+            else if (kwalifikacja.Text == prog2)
             {
                 label13.Text = "Projektowanie, programowanie i testowanie aplikacji";
             }
@@ -253,7 +253,7 @@ namespace WindowsFormsApp1
 
         private void miesiac2_Click(object sender, EventArgs e)
         {
-            miesiac2.BackColor = Color.White;
+            kwalifikacja.BackColor = Color.White;
         }
 
         private void nazwiskotb_Click(object sender, EventArgs e)
@@ -323,7 +323,7 @@ namespace WindowsFormsApp1
 
         private void save_Click(object sender, EventArgs e)
         {
-            var path = "C:\\Users\\tomek\\Desktop";
+            string path = "C:\\Users\\Igor\\Desktop\\text.txt"; //ZMIEŃ ŚCIEŻKĘ NA INNYM KOMPUTERZE
             if (File.Exists(path))
             {
                 File.Delete(path);
